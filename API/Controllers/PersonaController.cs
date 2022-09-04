@@ -35,7 +35,7 @@ namespace API.Controllers {
                 personas = await repoPersona.obtenerTodosEspecificacionAsync(espec);
                 response.success = true;
                 response.displayMessage = personas.Count == 0 ? "No se encontraron personas" : "Lista de Personas (" + personas.Count + ")";
-                response.result = mapper.Map<IReadOnlyCollection<Persona>, IReadOnlyCollection<PersonaDTO>>(personas);
+                response.result = mapper.Map<IReadOnlyCollection<Persona>, IReadOnlyCollection<PersonaDTO>>(personas).OrderBy(x => x.apellidoPaterno).ThenBy(x => x.apellidoMaterno).ThenBy(x => x.nombres).ToList();
                 code = personas.Count == 0 ? 404 : 200;
             } catch(Exception ex) {
                 response.success = false;

@@ -25,12 +25,12 @@ namespace Core.Specification {
     public class PersonaConDistritoInstitucion : SpecificationBase<Persona> {
         public PersonaConDistritoInstitucion() {
             AgregarInclude(x => x.distritoResidencia);
-            AgregarInclude(x => x.institucionVotacion);
+            AgregarInclude(x => x.institucionVotacion.distrito);
         }
 
         public PersonaConDistritoInstitucion(int id) : base(x => x.idPersona == id) {
             AgregarInclude(x => x.distritoResidencia);
-            AgregarInclude(x => x.institucionVotacion);
+            AgregarInclude(x => x.institucionVotacion.distrito);
         }
     }
 
