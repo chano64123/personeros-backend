@@ -31,7 +31,7 @@ namespace API.Controllers {
             IReadOnlyCollection<Persona> personas;
             int code;
             try {
-                var espec = new PersonaConDistritoInstitucion();
+                var espec = new PersonaConTodoDistritoTodoInstitucion();
                 personas = await repoPersona.obtenerTodosEspecificacionAsync(espec);
                 response.success = true;
                 response.displayMessage = personas.Count == 0 ? "No se encontraron personas" : "Lista de Personas (" + personas.Count + ")";
@@ -51,7 +51,7 @@ namespace API.Controllers {
             Persona persona = new();
             int code;
             try {
-                var espec = new PersonaConDistritoInstitucion(id);
+                var espec = new PersonaConTodoDistritoTodoInstitucion(id);
                 persona = await repoPersona.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
                 response.displayMessage = persona == null ? "No se encontro la persona buscada" : "Persona buscada (" + persona.nombres.Split()[0] + " " + persona.apellidoPaterno + ")";
@@ -92,7 +92,7 @@ namespace API.Controllers {
 
                 //continua normal
                 persona = await repoPersona.crearAsync(persona);
-                var espec = new PersonaConDistritoInstitucion(persona.idPersona);
+                var espec = new PersonaConTodoDistritoTodoInstitucion(persona.idPersona);
                 persona = await repoPersona.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
                 response.displayMessage = "Persona creada correctamente";
@@ -146,7 +146,7 @@ namespace API.Controllers {
 
                 //continua normal
                 persona = await repoPersona.actualizarAsync(persona);
-                var espec = new PersonaConDistritoInstitucion(persona.idPersona);
+                var espec = new PersonaConTodoDistritoTodoInstitucion(persona.idPersona);
                 persona = await repoPersona.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
                 response.displayMessage = "Persona actualizada correctamente";

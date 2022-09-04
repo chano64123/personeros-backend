@@ -25,7 +25,7 @@ namespace API.Controllers {
             IReadOnlyCollection<TipoEleccion> tiposElecciones;
             int code;
             try {
-                var espec = new TipoEleccionConPersona();
+                var espec = new TipoEleccionConTodoPersona();
                 tiposElecciones = await repoTipoEleccion.obtenerTodosEspecificacionAsync(espec);
                 response.success = true;
                 response.displayMessage = tiposElecciones.Count == 0 ? "No se encontraron tipos de elecciones" : "Lista de tipos de elecciones (" + tiposElecciones.Count + ")";
@@ -45,7 +45,7 @@ namespace API.Controllers {
             TipoEleccion tipoEleccion = new();
             int code;
             try {
-                var espec = new TipoEleccionConPersona(id);
+                var espec = new TipoEleccionConTodoPersona(id);
                 tipoEleccion = await repoTipoEleccion.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
                 response.displayMessage = tipoEleccion == null ? "No se encontro el tipo de elección buscada" : "Tipo de Elección buscada (" + tipoEleccion.nombre + ")";
@@ -65,7 +65,7 @@ namespace API.Controllers {
             int code;
             try {
                 tipoEleccion = await repoTipoEleccion.crearAsync(tipoEleccion);
-                var espec = new TipoEleccionConPersona(tipoEleccion.idTipoEleccion);
+                var espec = new TipoEleccionConTodoPersona(tipoEleccion.idTipoEleccion);
                 tipoEleccion = await repoTipoEleccion.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
                 response.displayMessage = "Tipo de Elección creada correctamente";
@@ -85,7 +85,7 @@ namespace API.Controllers {
             int code;
             try {
                 tipoEleccion = await repoTipoEleccion.actualizarAsync(tipoEleccion);
-                var espec = new TipoEleccionConPersona(tipoEleccion.idTipoEleccion);
+                var espec = new TipoEleccionConTodoPersona(tipoEleccion.idTipoEleccion);
                 tipoEleccion = await repoTipoEleccion.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
                 response.displayMessage = "Tipo de Elección actualizada correctamente";

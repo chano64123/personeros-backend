@@ -25,7 +25,7 @@ namespace API.Controllers {
             IReadOnlyCollection<Institucion> instituciones;
             int code;
             try {
-                var espec = new InstitucionConDistrito();
+                var espec = new InstitucionConTodoDistrito();
                 instituciones = await repoInstitucion.obtenerTodosEspecificacionAsync(espec);
                 response.success = true;
                 response.displayMessage = instituciones.Count == 0 ? "No se encontraron instituciones" : "Lista de Instituciones (" + instituciones.Count + ")";
@@ -45,7 +45,7 @@ namespace API.Controllers {
             Institucion institucion = new();
             int code;
             try {
-                var espec = new InstitucionConDistrito(id);
+                var espec = new InstitucionConTodoDistrito(id);
                 institucion = await repoInstitucion.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
                 response.displayMessage = institucion == null ? "No se encontro la institucion buscado" : "Institución buscada (" + institucion.nombre + ")";
@@ -65,7 +65,7 @@ namespace API.Controllers {
             int code;
             try {
                 institucion = await repoInstitucion.crearAsync(institucion);
-                var espec = new InstitucionConDistrito(institucion.idInstitucion);
+                var espec = new InstitucionConTodoDistrito(institucion.idInstitucion);
                 institucion = await repoInstitucion.obtenerPorIdEspecificoAsync(espec);
                 response.result = mapper.Map<Institucion, InstitucionDTO>(institucion);
                 response.success = true;
@@ -85,7 +85,7 @@ namespace API.Controllers {
             int code;
             try {
                 institucion = await repoInstitucion.actualizarAsync(institucion);
-                var espec = new InstitucionConDistrito(institucion.idInstitucion);
+                var espec = new InstitucionConTodoDistrito(institucion.idInstitucion);
                 institucion = await repoInstitucion.obtenerPorIdEspecificoAsync(espec);
                 response.result = mapper.Map<Institucion, InstitucionDTO>(institucion);
                 response.success = true;
@@ -106,7 +106,7 @@ namespace API.Controllers {
             try {
                 bool institucionEliminado = await repoInstitucion.eliminarPorIdAsync(id);
                 response.success = institucionEliminado;
-                response.displayMessage = institucionEliminado ? "Institución eliminada correctamente" : "No se pudo eliminar la Institución, , primero elimine los datos relacionados a la institución";
+                response.displayMessage = institucionEliminado ? "Institución eliminada correctamente" : "No se pudo eliminar la Institución, primero elimine los datos relacionados a la institución";
                 code = institucionEliminado ? 301 : 400;
             } catch (Exception ex) {
                 response.success = false;

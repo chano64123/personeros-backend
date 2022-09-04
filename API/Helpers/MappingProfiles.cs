@@ -10,6 +10,9 @@ namespace API.Helpers {
             CreateMap<Institucion, InstitucionDTO>();
             CreateMap<Persona, PersonaDTO>();
             CreateMap<TipoEleccion, TipoEleccionDTO>();
+            CreateMap<Mesa, MesaDTO>();
+            CreateMap<Acta, ActaDTO>();
+            CreateMap<Usuario, UsuarioDTO>();
         }
     }
 }
