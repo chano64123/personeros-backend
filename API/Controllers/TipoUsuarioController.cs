@@ -20,14 +20,14 @@ namespace API.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TipoEleccionDTO>>> obtenerTiposUsuario() {
+        public async Task<ActionResult<List<TipoUsuarioDTO>>> obtenerTiposUsuario() {
             IReadOnlyCollection<TipoUsuario> tiposUsuario;
             int code;
             try {
                 tiposUsuario = await repoTipoUsuario.obtenerTodosAsync();
                 response.success = true;
                 response.displayMessage = tiposUsuario.Count == 0 ? "No se encontraron tipos de usuario" : "Lista de tipos de usuario (" + tiposUsuario.Count + ")";
-                response.result = mapper.Map<IReadOnlyCollection<TipoUsuario>, IReadOnlyCollection<TipoEleccionDTO>>(tiposUsuario);
+                response.result = mapper.Map<IReadOnlyCollection<TipoUsuario>, IReadOnlyCollection<TipoUsuarioDTO>>(tiposUsuario);
                 code = tiposUsuario.Count == 0 ? 404 : 200;
             } catch (Exception ex) {
                 response.success = false;
@@ -39,14 +39,14 @@ namespace API.Controllers {
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TipoEleccionDTO>> obtenerTipoUsuario(int id) {
+        public async Task<ActionResult<TipoUsuarioDTO>> obtenerTipoUsuario(int id) {
             TipoUsuario tipoUsuario = new();
             int code;
             try {
                 tipoUsuario = await repoTipoUsuario.obtenerPorIdAsync(id);
                 response.success = true;
                 response.displayMessage = tipoUsuario == null ? "No se encontro el tipo de usuario buscado" : "Tipo de Usuario buscado (" + tipoUsuario.nombre + ")";
-                response.result = mapper.Map<TipoUsuario, TipoEleccionDTO>(tipoUsuario);
+                response.result = mapper.Map<TipoUsuario, TipoUsuarioDTO>(tipoUsuario);
                 code = tipoUsuario == null ? 404 : 200;
             } catch (Exception ex) {
                 response.success = false;
@@ -58,13 +58,13 @@ namespace API.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult<TipoEleccionDTO>> crearTipoUsuario(TipoUsuario tipoUsuario) {
+        public async Task<ActionResult<TipoUsuarioDTO>> crearTipoUsuario(TipoUsuario tipoUsuario) {
             int code;
             try {
                 tipoUsuario = await repoTipoUsuario.crearAsync(tipoUsuario);
                 response.success = true;
                 response.displayMessage = "Tipo de Usuario creado correctamente";
-                response.result = mapper.Map<TipoUsuario, TipoEleccionDTO>(tipoUsuario);
+                response.result = mapper.Map<TipoUsuario, TipoUsuarioDTO>(tipoUsuario);
                 code = 200;
             } catch (Exception ex) {
                 response.success = false;
@@ -76,13 +76,13 @@ namespace API.Controllers {
         }
 
         [HttpPut]
-        public async Task<ActionResult<TipoEleccionDTO>> actualizarTipoUsuario(TipoUsuario tipoUsuario) {
+        public async Task<ActionResult<TipoUsuarioDTO>> actualizarTipoUsuario(TipoUsuario tipoUsuario) {
             int code;
             try {
                 tipoUsuario = await repoTipoUsuario.actualizarAsync(tipoUsuario);
                 response.success = true;
                 response.displayMessage = "Tipo de Usuario actualizado correctamente";
-                response.result = mapper.Map<TipoUsuario, TipoEleccionDTO>(tipoUsuario);
+                response.result = mapper.Map<TipoUsuario, TipoUsuarioDTO>(tipoUsuario);
                 code = 200;
             } catch (Exception ex) {
                 response.success = false;

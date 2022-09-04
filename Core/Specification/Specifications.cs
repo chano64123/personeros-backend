@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 
 namespace Core.Specification {
 
+    public class TipoEleccionConPersona : SpecificationBase<TipoEleccion> {
+        public TipoEleccionConPersona() {
+            AgregarInclude(x => x.personaCandidato.distritoResidencia);
+            AgregarInclude(x => x.personaCandidato.institucionVotacion.distrito);
+        }
+
+        public TipoEleccionConPersona(int id) : base(x => x.idTipoEleccion == id) {
+            AgregarInclude(x => x.personaCandidato.distritoResidencia);
+            AgregarInclude(x => x.personaCandidato.institucionVotacion.distrito);
+        }
+    }
+
     public class PersonaPorDni : SpecificationBase<Persona> {
         public PersonaPorDni(string dni, int idPersona) : base(x => x.dni.Equals(dni) && x.idPersona != idPersona) {
         }

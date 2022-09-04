@@ -6,9 +6,10 @@ namespace API.Helpers {
     public class MappingProfiles : Profile{
         public MappingProfiles() {
             CreateMap<Distrito, DistritoDTO>();
-            CreateMap<TipoUsuario, TipoEleccionDTO>();
+            CreateMap<TipoUsuario, TipoUsuarioDTO>();
             CreateMap<Institucion, InstitucionDTO>();
             CreateMap<Persona, PersonaDTO>();
+            CreateMap<TipoEleccion, TipoEleccionDTO>();
         }
     }
 }
