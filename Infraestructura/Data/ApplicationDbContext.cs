@@ -16,6 +16,7 @@ namespace Infraestructura.Data {
         public DbSet<Distrito> Distrito { get; set; }
         public DbSet<TipoUsuario> TipoUsuario { get; set; }
         public DbSet<Institucion> Institucion { get; set; }
+        public DbSet<Persona> Persona { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);

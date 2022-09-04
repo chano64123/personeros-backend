@@ -4,10 +4,23 @@ using Core.Model;
 using Core.Interface;
 using Infraestructura.Repository;
 using API.Helpers;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//Configuracion para puerto de heroku (solo desarrollo)
+
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "3000";
+
+//builder.WebHost.UseKestrel().ConfigureKestrel((context, options) => {
+//    options.Listen(IPAddress.Any, Int32.Parse(port), listenOptions => {
+
+//    });
+//});
+//Console.WriteLine("Puerto Heroku: " + port);
+
 
 //para conectar a sql
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

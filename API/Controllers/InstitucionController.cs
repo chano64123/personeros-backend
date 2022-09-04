@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class InstituciónController : ControllerBase {
+    public class InstitucionController : ControllerBase {
         private readonly IRepository<Institucion> repoInstitucion;
         private IMapper mapper;
         protected ResponseDTO response;
 
-        public InstituciónController(IRepository<Institucion> repoInstitucion, IMapper mapper) {
+        public InstitucionController(IRepository<Institucion> repoInstitucion, IMapper mapper) {
             response = new ResponseDTO();
             this.repoInstitucion = repoInstitucion;
             this.mapper = mapper;
@@ -28,8 +28,8 @@ namespace API.Controllers {
                 var espec = new InstitucionConDistrito();
                 instituciones = await repoInstitucion.obtenerTodosEspecificacionAsync(espec);
                 response.success = true;
-                response.displayMessage = instituciones.Count == 0 ? "No se encontraron instituciones" : "Lista de Instituciónes (" + instituciones.Count + ")";
-                response.result = mapper.Map<IReadOnlyCollection<Institucion>, IReadOnlyCollection<InstitucionDTO>>(instituciones);
+                response.displayMessage = instituciones.Count == 0 ? "No se encontraron instituciones" : "Lista de Instituciones (" + instituciones.Count + ")";
+                response.result = mapper.Map<IReadOnlyCollection<Institucion>, IReadOnlyCollection<InstitucionDTO>>(instituciones).OrderBy(x => x.distrito.nombre).ToList();
                 code = instituciones.Count == 0 ? 404 : 200;
             } catch (Exception ex) {
                 response.success = false;
@@ -100,13 +100,13 @@ namespace API.Controllers {
             return StatusCode(code, response);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> eliminarInstitucion(int id) {
             int code;
             try {
                 bool institucionEliminado = await repoInstitucion.eliminarPorIdAsync(id);
                 response.success = institucionEliminado;
-                response.displayMessage = institucionEliminado ? "Institución eliminada correctamente" : "No se pudo eliminar la Institución";
+                response.displayMessage = institucionEliminado ? "Institución eliminada correctamente" : "No se pudo eliminar la Institución, , primero elimine los datos relacionados a la institución";
                 code = institucionEliminado ? 301 : 400;
             } catch (Exception ex) {
                 response.success = false;

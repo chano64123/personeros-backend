@@ -93,13 +93,13 @@ namespace API.Controllers {
             return StatusCode(code, response);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> eliminarTipoUsuario(int id) {
             int code;
             try {
                 bool tipoUsuarioEliminado = await repoTipoUsuario.eliminarPorIdAsync(id);
                 response.success = tipoUsuarioEliminado;
-                response.displayMessage = tipoUsuarioEliminado ? "Tipo de Usuario eliminado correctamente" : "No se pudo eliminar el Tipo de Usuario";
+                response.displayMessage = tipoUsuarioEliminado ? "Tipo de Usuario eliminado correctamente" : "No se pudo eliminar el Tipo de Usuario, primero elimine los datos relacionados al tipo de usuario";
                 code = tipoUsuarioEliminado ? 301 : 400;
             } catch (Exception ex) {
                 response.success = false;

@@ -8,6 +8,7 @@ namespace API.Helpers {
             CreateMap<Distrito, DistritoDTO>();
             CreateMap<TipoUsuario, TipoEleccionDTO>();
             CreateMap<Institucion, InstitucionDTO>();
+            CreateMap<Persona, PersonaDTO>();
         }
     }
 }

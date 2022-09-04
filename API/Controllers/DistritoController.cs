@@ -2,6 +2,7 @@
 using AutoMapper;
 using Core.Interface;
 using Core.Model;
+using Core.Specification;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,13 +11,15 @@ namespace API.Controllers {
     [ApiController]
     public class DistritoController : ControllerBase {
         private readonly IRepository<Distrito> repoDistrito;
+        private readonly IRepository<Institucion> repoInstitucion;
         private IMapper mapper;
         protected ResponseDTO response;
 
-        public DistritoController(IRepository<Distrito> repoDistrito, IMapper mapper) {
+        public DistritoController(IRepository<Distrito> repoDistrito, IMapper mapper, IRepository<Institucion> repoInstitucion) {
             response = new ResponseDTO();
             this.repoDistrito = repoDistrito;
             this.mapper = mapper;
+            this.repoInstitucion = repoInstitucion;
         }
 
         [HttpGet]
@@ -49,6 +52,27 @@ namespace API.Controllers {
                 response.result = mapper.Map<Distrito, DistritoDTO>(distrito);
                 code = distrito == null ? 404 : 200;
             } catch (Exception ex) {
+                response.success = false;
+                response.displayMessage = "Error con el servidor";
+                response.errorMessage = new List<string> { ex.ToString() };
+                code = 500;
+            }
+            return StatusCode(code, response);
+        }
+
+        [HttpGet("{id}/instituciones")]
+        public async Task<ActionResult<IReadOnlyList<InstitucionDTO>>> obtenerInstitucionesDeDistrito(int id) {
+            Distrito distrito = new();
+            int code;
+            try {
+                distrito = await repoDistrito.obtenerPorIdAsync(id);
+                var espec = new InstitucionesDeDistrito(id);
+                var institucionesDeDistrito = await repoInstitucion.obtenerTodosEspecificacionAsync(espec);
+                response.success = true;
+                response.displayMessage = institucionesDeDistrito.Count == 0 ? "El distrito " + distrito.nombre + " aún no tiene instituciones registradas." : "Instituciones del distrito " + distrito.nombre + " (" + institucionesDeDistrito.Count + ")";
+                response.result = mapper.Map<IReadOnlyList<Institucion>, IReadOnlyList<InstitucionDTO>>(institucionesDeDistrito);
+                code = distrito == null ? 404 : 200;
+            } catch(Exception ex) {
                 response.success = false;
                 response.displayMessage = "Error con el servidor";
                 response.errorMessage = new List<string> { ex.ToString() };
@@ -93,13 +117,13 @@ namespace API.Controllers {
             return StatusCode(code, response);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> eliminarDistrito(int id) {
             int code;
             try {
                 bool distritoEliminado = await repoDistrito.eliminarPorIdAsync(id);
                 response.success = distritoEliminado;
-                response.displayMessage = distritoEliminado ? "Distrito eliminado correctamente" : "No se pudo eliminar el Distrito";
+                response.displayMessage = distritoEliminado ? "Distrito eliminado correctamente" : "No se pudo eliminar el Distrito, primero elimine los datos relacionados al distrito";
                 code = distritoEliminado ? 301 : 400;
             } catch (Exception ex) {
                 response.success = false;
