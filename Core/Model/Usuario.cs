@@ -16,7 +16,6 @@ namespace Core.Model {
         public int idPersona { get; set; }
         [Required]
         public string nombreUsuario { get; set; }
-        [Required]
         public string clave { get; set; }
         [Required]
         public int cantidadMaximaMesas { get; set; }

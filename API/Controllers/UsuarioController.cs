@@ -163,13 +163,8 @@ namespace API.Controllers {
         public async Task<ActionResult<UsuarioDTO>> actualizarUsuario(Usuario usuario) {
             int code;
             try {
-                //verificar clave
-                if(String.IsNullOrEmpty(usuario.clave)) {
-                    var usuarioSearch = await repoUsuario.obtenerPorIdAsync(usuario.idUsuario);
-                    usuario.clave = usuarioSearch.clave;
-                } else {
-                    usuario.clave = BCrypt.Net.BCrypt.HashPassword(usuario.clave);
-                }
+                ////verificar clave
+                usuario.clave = await obtenerClaveUsuario(usuario.idUsuario, usuario.clave);
 
                 //verificar nombre de usuario
                 bool existeUsuarioName = await existeNombreDeUsuario(usuario.nombreUsuario, usuario.idUsuario);
@@ -181,7 +176,7 @@ namespace API.Controllers {
                     return StatusCode(code, response);
                 }
 
-                //verificar persona con mismo tipo xe usuario
+                //verificar persona con mismo tipo de usuario
                 bool existePersonaRol = await existePersonaConTipoUsuario(usuario.idPersona, usuario.idTipoUsuario, usuario.idUsuario);
                 if(existePersonaRol) {
                     response.success = false;
@@ -206,6 +201,17 @@ namespace API.Controllers {
                 code = 304;
             }
             return StatusCode(code, response);
+        }
+
+        private async Task<string> obtenerClaveUsuario(int idUsuario, string clave) {
+            if(String.IsNullOrEmpty(clave)) {
+                var espec = new UsuarioConTodoTipoUsuarioTodoPersona(idUsuario);
+                var usuarioSearch = await repoUsuario.obtenerPorIdEspecificoAsync(espec);
+                clave = usuarioSearch.clave;
+            } else {
+                clave = BCrypt.Net.BCrypt.HashPassword(clave);
+            }
+            return clave;
         }
 
         [HttpDelete("{id}")]

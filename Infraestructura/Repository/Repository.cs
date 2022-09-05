@@ -54,7 +54,7 @@ namespace Infraestructura.Repository {
         }
 
         private IQueryable<TEntity> aplicarEspecificacion(ISpecification<TEntity> espec) {
-            return EvaluatorSpecification<TEntity>.GetQuery(db.Set<TEntity>().AsQueryable(), espec);
+            return EvaluatorSpecification<TEntity>.GetQuery(db.Set<TEntity>().AsQueryable().AsNoTracking(), espec);
 
         }
     }
