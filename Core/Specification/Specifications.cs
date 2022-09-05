@@ -2,10 +2,48 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Specification {
+    public class UsuarioPorNombreUsuarioLogin : SpecificationBase<Usuario> {
+        public UsuarioPorNombreUsuarioLogin(string nombreUsuario) : base(x => x.nombreUsuario.Equals(nombreUsuario)) {
+            AgregarInclude(x => x.tipoUsuario);
+            AgregarInclude(x => x.persona.distritoResidencia);
+            AgregarInclude(x => x.persona.institucionVotacion.distrito);
+        }
+    }
+
+    public class UsuarioPorNombreUsuario : SpecificationBase<Usuario> {
+        public UsuarioPorNombreUsuario(string nombreUsuario, int idUsuario) : base(x => x.nombreUsuario.Equals(nombreUsuario) && x.idUsuario != idUsuario) {
+        }
+
+        public UsuarioPorNombreUsuario(string nombreUsuario) : base(x => x.nombreUsuario.Equals(nombreUsuario)) {
+        }
+    }
+
+    public class UsuarioMismaPersonaTipoUsuario : SpecificationBase<Usuario> {
+        public UsuarioMismaPersonaTipoUsuario(int idPersona, int idTipoUsuario) : base(x => x.idTipoUsuario == idTipoUsuario && x.idPersona == idPersona) {
+        }
+
+        public UsuarioMismaPersonaTipoUsuario(int idPersona, int idTipoUsuario, int idUsuario) : base(x => x.idTipoUsuario == idTipoUsuario && x.idPersona == idPersona && x.idUsuario != idUsuario) {
+        }
+    }
+
+    public class UsuarioConTodoTipoUsuarioTodoPersona : SpecificationBase<Usuario> {
+        public UsuarioConTodoTipoUsuarioTodoPersona() {
+            AgregarInclude(x => x.tipoUsuario);
+            AgregarInclude(x => x.persona.distritoResidencia);
+            AgregarInclude(x => x.persona.institucionVotacion.distrito);
+        }
+
+        public UsuarioConTodoTipoUsuarioTodoPersona(int id) : base(x => x.idUsuario == id) {
+            AgregarInclude(x => x.tipoUsuario);
+            AgregarInclude(x => x.persona.distritoResidencia);
+            AgregarInclude(x => x.persona.institucionVotacion.distrito);
+        }
+    }
 
     public class ActaConTodoMesaTodoTipoEleccion : SpecificationBase<Acta> {
         public ActaConTodoMesaTodoTipoEleccion() {

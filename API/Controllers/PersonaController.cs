@@ -1,4 +1,5 @@
 ﻿using API.DTO;
+using API.Helpers;
 using AutoMapper;
 using Core.Interface;
 using Core.Model;
@@ -74,7 +75,7 @@ namespace API.Controllers {
                 bool existeDni = await existeDniPersona(persona.dni);
                 if(existeDni) {
                     response.success = false;
-                    response.displayMessage = "El DNI ya se encuentra registrado";
+                    response.displayMessage = "El DNI " + persona.dni + " ya se encuentra registrado";
                     response.result = null;
                     code = 409;
                     return StatusCode(code, response);
@@ -84,11 +85,16 @@ namespace API.Controllers {
                 bool existeCelular = await existeCelularPersona(persona.celular);
                 if(existeCelular) {
                     response.success = false;
-                    response.displayMessage = "El celular/teléfono ya se encuentra registrado";
+                    response.displayMessage = "El celular/teléfono " + persona.celular + " ya se encuentra registrado";
                     response.result = null;
                     code = 409;
                     return StatusCode(code, response);
                 }
+
+                //formateando datos de la persona
+                persona.nombres = UtilityHelper.ToUpperFirstLetterOfWord(persona.nombres);
+                persona.apellidoMaterno = UtilityHelper.ToUpperFirstLetterOfWord(persona.apellidoMaterno.Trim());
+                persona.apellidoPaterno= UtilityHelper.ToUpperFirstLetterOfWord(persona.apellidoPaterno.Trim());
 
                 //continua normal
                 persona = await repoPersona.crearAsync(persona);

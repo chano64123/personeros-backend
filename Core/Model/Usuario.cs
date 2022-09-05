@@ -19,9 +19,9 @@ namespace Core.Model {
         [Required]
         public string clave { get; set; }
         [Required]
-        public string cantidadMaximaMesas { get; set; }
+        public int cantidadMaximaMesas { get; set; }
         [Required]
-        public string cantidadMaximaInstituciones { get; set; }
+        public int cantidadMaximaInstituciones { get; set; }
         [ForeignKey("idTipoUsuario")]
         public TipoUsuario tipoUsuario { get; set; }
         [ForeignKey("idPersona")]
