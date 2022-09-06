@@ -89,6 +89,15 @@ namespace API.Controllers {
                     return StatusCode(code, response);
                 }
 
+                //verifica nivel de acceso
+                if(usuario.tipoUsuario.identificador < 4) {
+                    response.success = false;
+                    response.displayMessage = "No tienes los permisos para iniciar sesión";
+                    response.result = null;
+                    code = 400;
+                    return StatusCode(code, response);
+                }
+
                 //continua normal
                 response.success = true;
                 response.displayMessage = "Bienvenido " + usuario.persona.nombres.Split(' ')[0] + " " + usuario.persona.apellidoPaterno;
