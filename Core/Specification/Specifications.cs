@@ -7,6 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Specification {
+    public class UsuariosPorTipoDeUsuarioConTodo : SpecificationBase<Usuario> {
+        public UsuariosPorTipoDeUsuarioConTodo(int idTipoUsuario) : base(x => x.tipoUsuario.idTipoUsuario == idTipoUsuario) {
+            AgregarInclude(x => x.tipoUsuario);
+            AgregarInclude(x => x.persona.distritoResidencia);
+            AgregarInclude(x => x.persona.institucionVotacion.distrito);
+        }
+    }
+
     public class UsuarioPorNombreUsuarioLogin : SpecificationBase<Usuario> {
         public UsuarioPorNombreUsuarioLogin(string nombreUsuario) : base(x => x.nombreUsuario.Equals(nombreUsuario)) {
             AgregarInclude(x => x.tipoUsuario);

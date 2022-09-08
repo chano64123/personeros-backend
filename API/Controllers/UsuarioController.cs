@@ -42,6 +42,26 @@ namespace API.Controllers {
             return StatusCode(code, response);
         }
 
+        [HttpGet("TipoUsuario/{idTipoUsuario}")]
+        public async Task<ActionResult<List<UsuarioDTO>>> obtenerUsuarioPorTipoUsuario(int idTipoUsuario) {
+            IReadOnlyCollection<Usuario> usuarios;
+            int code;
+            try {
+                var espec = new UsuariosPorTipoDeUsuarioConTodo(idTipoUsuario);
+                usuarios = await repoUsuario.obtenerTodosEspecificacionAsync(espec);
+                response.success = true;
+                response.displayMessage = usuarios.Count == 0 ? "No se encontraron usuarios del tipo buscado" : "Lista de Usuarios (" + usuarios.Count + ")";
+                response.result = mapper.Map<IReadOnlyCollection<Usuario>, IReadOnlyCollection<UsuarioDTO>>(usuarios).ToList();
+                code = usuarios.Count == 0 ? 404 : 200;
+            } catch(Exception ex) {
+                response.success = false;
+                response.displayMessage = "Error con el servidor";
+                response.errorMessage = new List<string> { ex.ToString() };
+                code = 500;
+            }
+            return StatusCode(code, response);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<UsuarioDTO>> obtenerUsuario(int id) {
             Usuario usuario = new();
@@ -61,6 +81,8 @@ namespace API.Controllers {
             }
             return StatusCode(code, response);
         }
+
+
 
         [HttpPost("login")]
         public async Task<ActionResult<UsuarioDTO>> loginUsuario([FromBody]Login login) {
