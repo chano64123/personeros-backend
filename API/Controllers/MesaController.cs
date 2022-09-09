@@ -40,6 +40,26 @@ namespace API.Controllers {
             return StatusCode(code, response);
         }
 
+        [HttpGet("Institucion/{idInstitucion}")]
+        public async Task<ActionResult<List<MesaDTO>>> obtenerMesaes(int idInstitucion) {
+            IReadOnlyCollection<Mesa> mesas;
+            int code;
+            try {
+                var espec = new MesaDeInstitucionConTodoInstitucion(idInstitucion);
+                mesas = await repoMesa.obtenerTodosEspecificacionAsync(espec);
+                response.success = true;
+                response.displayMessage = mesas.Count == 0 ? "No se encontraron mesas" : "Lista de Mesas (" + mesas.Count + ")";
+                response.result = mapper.Map<IReadOnlyCollection<Mesa>, IReadOnlyCollection<MesaDTO>>(mesas).OrderBy(x => x.institucion.distrito.nombre).ThenBy(x => x.institucion.nombre).ThenBy(x => x.numero).ToList();
+                code = mesas.Count == 0 ? 404 : 200;
+            } catch(Exception ex) {
+                response.success = false;
+                response.displayMessage = "Error con el servidor";
+                response.errorMessage = new List<string> { ex.ToString() };
+                code = 500;
+            }
+            return StatusCode(code, response);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<MesaDTO>> obtenerMesa(int id) {
             Mesa mesa = new();

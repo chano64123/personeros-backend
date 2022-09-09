@@ -12,14 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Configuracion para puerto de heroku (solo desarrollo)
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "3000";
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "3000";
 
-builder.WebHost.UseKestrel().ConfigureKestrel((context, options) => {
-    options.Listen(IPAddress.Any, Int32.Parse(port), listenOptions => {
+//builder.WebHost.UseKestrel().ConfigureKestrel((context, options) => {
+//    options.Listen(IPAddress.Any, Int32.Parse(port), listenOptions => {
 
-    });
-});
-Console.WriteLine("Puerto Heroku: " + port);
+//    });
+//});
+//Console.WriteLine("Puerto Heroku: " + port);
 
 
 //para conectar a sql

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specification {
     public class UsuariosPorTipoDeUsuarioConTodo : SpecificationBase<Usuario> {
-        public UsuariosPorTipoDeUsuarioConTodo(int idTipoUsuario) : base(x => x.tipoUsuario.idTipoUsuario == idTipoUsuario) {
+        public UsuariosPorTipoDeUsuarioConTodo(int idTipoUsuario) : base(x => x.idTipoUsuario == idTipoUsuario) {
             AgregarInclude(x => x.tipoUsuario);
             AgregarInclude(x => x.persona.distritoResidencia);
             AgregarInclude(x => x.persona.institucionVotacion.distrito);
@@ -64,6 +64,12 @@ namespace Core.Specification {
             AgregarInclude(x => x.tipoEleccion.personaCandidato.distritoResidencia);
             AgregarInclude(x => x.tipoEleccion.personaCandidato.institucionVotacion.distrito);
             AgregarInclude(x => x.mesa.institucion.distrito);
+        }
+    }
+
+    public class MesaDeInstitucionConTodoInstitucion : SpecificationBase<Mesa> {
+        public MesaDeInstitucionConTodoInstitucion(int idInstitucion) : base(x => x.idInstitucion == idInstitucion) {
+            AgregarInclude(x => x.institucion.distrito);
         }
     }
 

@@ -82,8 +82,6 @@ namespace API.Controllers {
             return StatusCode(code, response);
         }
 
-
-
         [HttpPost("login")]
         public async Task<ActionResult<UsuarioDTO>> loginUsuario([FromBody]Login login) {
             Usuario usuario = new();
