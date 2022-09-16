@@ -70,7 +70,7 @@ namespace API.Controllers {
                 var espec = new UsuarioConTodoTipoUsuarioTodoPersona(id);
                 usuario = await repoUsuario.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
-                response.displayMessage = usuario == null ? "No se encontro el usuario buscado" : "Usuario buscado (" + usuario.nombreUsuario + ")";
+                response.displayMessage = usuario == null ? "No se encontró el usuario buscado" : "Usuario buscado (" + usuario.nombreUsuario + ")";
                 response.result = mapper.Map<Usuario, UsuarioDTO>(usuario);
                 code = usuario == null ? 404 : 200;
             } catch(Exception ex) {

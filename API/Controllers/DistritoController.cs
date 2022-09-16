@@ -48,7 +48,7 @@ namespace API.Controllers {
             try {
                 distrito = await repoDistrito.obtenerPorIdAsync(id);
                 response.success = true;
-                response.displayMessage = distrito == null ? "No se encontro el distrito buscado" : "Distrito buscado (" + distrito.nombre + ")";
+                response.displayMessage = distrito == null ? "No se encontró el distrito buscado" : "Distrito buscado (" + distrito.nombre + ")";
                 response.result = mapper.Map<Distrito, DistritoDTO>(distrito);
                 code = distrito == null ? 404 : 200;
             } catch (Exception ex) {

@@ -7,6 +7,72 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Specification {
+    public class DesignacionInstitucionConTodoDeInstitucion : SpecificationBase<DesignacionInstitucion> {
+        public DesignacionInstitucionConTodoDeInstitucion(int idInstitucion) : base(x => x.idInstitucion == idInstitucion) {
+            AgregarInclude(x => x.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+    }
+
+    public class DesignacionInstitucionConTodoDeUsuario : SpecificationBase<DesignacionInstitucion> {
+        public DesignacionInstitucionConTodoDeUsuario(int idUsuario) : base(x => x.idUsuario == idUsuario) {
+            AgregarInclude(x => x.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+    }
+
+    public class DesignacionInstitucionConTodo : SpecificationBase<DesignacionInstitucion> {
+        public DesignacionInstitucionConTodo() : base() {
+            AgregarInclude(x => x.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+        public DesignacionInstitucionConTodo(int idDesignacionInstitucion) : base(x => x.idDesignacionInstitucion == idDesignacionInstitucion) {
+            AgregarInclude(x => x.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+    }
+
+    public class DesignacionMesaConTodoDeUsuario : SpecificationBase<DesignacionMesa> {
+        public DesignacionMesaConTodoDeUsuario(int idUsuario) : base(x => x.idUsuario == idUsuario) {
+            AgregarInclude(x => x.mesa.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+    }
+
+    public class DesignacionMesaConTodoDeInstitucion : SpecificationBase<DesignacionMesa> {
+        public DesignacionMesaConTodoDeInstitucion(int idInstitucion) : base(x => x.mesa.institucion.idInstitucion == idInstitucion) {
+            AgregarInclude(x => x.mesa.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+    }
+
+    public class DesignacionMesaConTodo : SpecificationBase<DesignacionMesa> {
+        public DesignacionMesaConTodo() : base() {
+            AgregarInclude(x => x.mesa.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+        public DesignacionMesaConTodo(int idDesignacionMesa) : base(x => x.idDesignacionMesa == idDesignacionMesa) {
+            AgregarInclude(x => x.mesa.institucion.distrito);
+            AgregarInclude(x => x.usuario.tipoUsuario);
+            AgregarInclude(x => x.usuario.persona.distritoResidencia);
+            AgregarInclude(x => x.usuario.persona.institucionVotacion.distrito);
+        }
+    }
+
     public class UsuariosPorTipoDeUsuarioConTodo : SpecificationBase<Usuario> {
         public UsuariosPorTipoDeUsuarioConTodo(int idTipoUsuario) : base(x => x.idTipoUsuario == idTipoUsuario) {
             AgregarInclude(x => x.tipoUsuario);

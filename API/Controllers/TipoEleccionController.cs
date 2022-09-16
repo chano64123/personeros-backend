@@ -48,7 +48,7 @@ namespace API.Controllers {
                 var espec = new TipoEleccionConTodoPersona(id);
                 tipoEleccion = await repoTipoEleccion.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
-                response.displayMessage = tipoEleccion == null ? "No se encontro el tipo de elección buscada" : "Tipo de Elección buscada (" + tipoEleccion.nombre + ")";
+                response.displayMessage = tipoEleccion == null ? "No se encontró el tipo de elección buscada" : "Tipo de Elección buscada (" + tipoEleccion.nombre + ")";
                 response.result = mapper.Map<TipoEleccion, TipoEleccionDTO>(tipoEleccion);
                 code = tipoEleccion == null ? 404 : 200;
             } catch(Exception ex) {

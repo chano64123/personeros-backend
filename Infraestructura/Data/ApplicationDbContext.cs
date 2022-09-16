@@ -21,6 +21,8 @@ namespace Infraestructura.Data {
         public DbSet<Mesa> Mesa { get; set; }
         public DbSet<Acta> Acta { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<DesignacionMesa> DesignacionMesa { get; set; }
+        public DbSet<DesignacionInstitucion> DesignacionInstitucion { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);

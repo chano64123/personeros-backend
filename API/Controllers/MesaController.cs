@@ -68,7 +68,7 @@ namespace API.Controllers {
                 var espec = new MesaConTodoInstitucion(id);
                 mesa = await repoMesa.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
-                response.displayMessage = mesa == null ? "No se encontro la mesa buscada" : "Mesa buscada (" + mesa.numero + " - " + mesa.institucion.nombre + ")";
+                response.displayMessage = mesa == null ? "No se encontró la mesa buscada" : "Mesa buscada (" + mesa.numero + " - " + mesa.institucion.nombre + ")";
                 response.result = mapper.Map<Mesa, MesaDTO>(mesa);
                 code = mesa == null ? 404 : 200;
             } catch(Exception ex) {

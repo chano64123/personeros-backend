@@ -45,7 +45,7 @@ namespace API.Controllers {
             try {
                 tipoUsuario = await repoTipoUsuario.obtenerPorIdAsync(id);
                 response.success = true;
-                response.displayMessage = tipoUsuario == null ? "No se encontro el tipo de usuario buscado" : "Tipo de Usuario buscado (" + tipoUsuario.nombre + ")";
+                response.displayMessage = tipoUsuario == null ? "No se encontró el tipo de usuario buscado" : "Tipo de Usuario buscado (" + tipoUsuario.nombre + ")";
                 response.result = mapper.Map<TipoUsuario, TipoUsuarioDTO>(tipoUsuario);
                 code = tipoUsuario == null ? 404 : 200;
             } catch (Exception ex) {

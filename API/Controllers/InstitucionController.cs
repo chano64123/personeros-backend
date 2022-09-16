@@ -48,7 +48,7 @@ namespace API.Controllers {
                 var espec = new InstitucionConTodoDistrito(id);
                 institucion = await repoInstitucion.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
-                response.displayMessage = institucion == null ? "No se encontro la institucion buscado" : "Institución buscada (" + institucion.nombre + ")";
+                response.displayMessage = institucion == null ? "No se encontró la institucion buscado" : "Institución buscada (" + institucion.nombre + ")";
                 response.result = mapper.Map<Institucion, InstitucionDTO>(institucion);
                 code = institucion == null ? 404 : 200;
             } catch (Exception ex) {

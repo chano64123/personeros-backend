@@ -48,7 +48,7 @@ namespace API.Controllers {
                 var espec = new ActaConTodoMesaTodoTipoEleccion(id);
                 acta = await repoActa.obtenerPorIdEspecificoAsync(espec);
                 response.success = true;
-                response.displayMessage = acta == null ? "No se encontro la acta buscada" : "Acta buscada (" + acta.mesa.institucion.nombre + " - " + acta.mesa.numero + " - " + acta.tipoEleccion.nombre + ")";
+                response.displayMessage = acta == null ? "No se encontró la acta buscada" : "Acta buscada (" + acta.mesa.institucion.nombre + " - " + acta.mesa.numero + " - " + acta.tipoEleccion.nombre + ")";
                 response.result = mapper.Map<Acta, ActaDTO>(acta);
                 code = acta == null ? 404 : 200;
             } catch(Exception ex) {
