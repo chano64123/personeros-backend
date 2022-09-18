@@ -82,8 +82,8 @@ namespace API.Controllers {
             return StatusCode(code, response);
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<UsuarioDTO>> loginUsuario([FromBody]Login login) {
+        [HttpPost("login/web")]
+        public async Task<ActionResult<UsuarioDTO>> loginUsuarioWeb([FromBody]Login login) {
             Usuario usuario = new();
             int code;
             try {
@@ -111,6 +111,56 @@ namespace API.Controllers {
 
                 //verifica nivel de acceso
                 if(usuario.tipoUsuario.identificador < 4) {
+                    response.success = false;
+                    response.displayMessage = "No tienes los permisos para iniciar sesión";
+                    response.result = null;
+                    code = 400;
+                    return StatusCode(code, response);
+                }
+
+                //continua normal
+                response.success = true;
+                response.displayMessage = "Bienvenido " + usuario.persona.nombres.Split(' ')[0] + " " + usuario.persona.apellidoPaterno;
+                response.result = mapper.Map<Usuario, UsuarioDTO>(usuario);
+                code = 200;
+            } catch(Exception ex) {
+                response.success = false;
+                response.displayMessage = "Error con el servidor";
+                response.errorMessage = new List<string> { ex.ToString() };
+                code = 500;
+            }
+            return StatusCode(code, response);
+        }
+
+        [HttpPost("login/movil")]
+        public async Task<ActionResult<UsuarioDTO>> loginUsuarioMovil([FromBody] Login login) {
+            Usuario usuario = new();
+            int code;
+            try {
+                //obtener usuario de acuerdo al nombre de usuario
+                var espec = new UsuarioPorNombreUsuarioLogin(login.nombreUsuario);
+                usuario = await repoUsuario.obtenerPorIdEspecificoAsync(espec);
+
+                //verificar si usario existe
+                if(usuario == null) {
+                    response.success = false;
+                    response.displayMessage = "No exite el usuario ingresado";
+                    response.result = null;
+                    code = 400;
+                    return StatusCode(code, response);
+                }
+
+                //compara clave
+                if(!BCrypt.Net.BCrypt.Verify(login.clave, usuario.clave)) {
+                    response.success = false;
+                    response.displayMessage = "Las credenciales ingresadas no coinciden";
+                    response.result = null;
+                    code = 400;
+                    return StatusCode(code, response);
+                }
+
+                //verifica nivel de acceso
+                if(usuario.tipoUsuario.identificador > 3) {
                     response.success = false;
                     response.displayMessage = "No tienes los permisos para iniciar sesión";
                     response.result = null;
